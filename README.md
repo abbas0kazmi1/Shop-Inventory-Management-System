@@ -24,13 +24,11 @@ A robust and efficient Inventory Management System built with Django (Python). T
 
 Follow these steps to run the project locally:
 
-1.  **Clone the Repository**
-    ```bash
-    git clone https://github.com/yourusername/inventory-management-system.git
-    cd inventory-management-system
-    ```
+1. pip install django
+2. django-admin start project projectname
+3. django-admin start app appname
 
-2.  **Create a Virtual Environment**
+4.  **Create a Virtual Environment**
     ```bash
     python -m venv venv
     # Windows
@@ -39,37 +37,34 @@ Follow these steps to run the project locally:
     source venv/bin/activate
     ```
 
-3.  **Install Dependencies**
+5.  **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Apply Migrations**
-    ```bash
+6.  **Apply Migrations**
+   write tables fields in models.py
+    then
+    ```
+    python manage.py makemigrations
     python manage.py migrate
     ```
 
-5.  **Create a Superuser (Admin)**
+8.  **Create a Superuser (Admin)**
     ```bash
     python manage.py createsuperuser
     ```
 
-6.  **Run the Server**
+9.  **Run the Server**
     ```bash
     python manage.py runserver
     ```
 
-7.  **Access the App**
+10.  **Access the App**
     Open your browser and go to `http://127.0.0.1:8000/`
 
-## 📸 Screenshots
-
-*(You can upload screenshots of your Dashboard, Product List, and Sales page here)*
 
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
