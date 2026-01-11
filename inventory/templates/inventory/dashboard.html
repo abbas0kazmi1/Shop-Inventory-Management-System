@@ -1,0 +1,47 @@
+{% extends 'inventory/base.html' %}
+{% block title %}Dashboard - E-Khata{% endblock %}
+{% block content %}
+
+<div class="container py-5">
+
+  <h2 class="fw-bold text-primary text-center mb-5">📊 Dashboard Overview</h2>
+
+  <div class="row g-4">
+
+    <!-- Total Products -->
+    <div class="col-md-3">
+      <div class="card shadow-sm text-center p-3 border-0 rounded-4">
+        <h5 class="text-primary fw-bold">Products</h5>
+        <p class="display-6 fw-bold text-dark">{{ total_products }}</p>
+      </div>
+    </div>
+
+    <!-- Total Suppliers -->
+    <div class="col-md-3">
+      <div class="card shadow-sm text-center p-3 border-0 rounded-4">
+        <h5 class="text-success fw-bold">Suppliers</h5>
+        <p class="display-6 fw-bold text-dark">{{ total_suppliers }}</p>
+      </div>
+    </div>
+
+    <!-- Total Customers -->
+    <div class="col-md-3">
+      <div class="card shadow-sm text-center p-3 border-0 rounded-4">
+        <h5 class="text-warning fw-bold">Customers</h5>
+        <p class="display-6 fw-bold text-dark">{{ total_customers }}</p>
+      </div>
+    </div>
+
+    <!-- Total Sales -->
+    <div class="col-md-3">
+      <div class="card shadow-sm text-center p-3 border-0 rounded-4">
+        <h5 class="text-danger fw-bold">Sales</h5>
+        <p class="display-6 fw-bold text-dark">Rs. {{ total_sales }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,235 @@
+{% extends 'inventory/base.html' %}
+{% block title %}Products - E-Khata{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="text-primary">All Products</h2>
+
+  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+    Add New Product
+  </button>
+</div>
+
+<!-- 🔴 LOW STOCK ALERT BANNER -->
+{% if low_stock_products %}
+<div class="alert alert-danger">
+  <strong>Low Stock Alert!</strong> The following products are running low:
+  <ul>
+    {% for item in low_stock_products %}
+    <li>{{ item.name }} — only {{ item.stock }} left!</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<!-- 🟡 EXPIRY WARNING BANNER -->
+{% if expiring_soon_products %}
+<div class="alert alert-warning">
+  <strong>Expiry Warning:</strong> Some products will expire soon:
+  <ul>
+    {% for item in expiring_soon_products %}
+    <li>{{ item.name }} — Expires on {{ item.expiry_date }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead class="table-primary">
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Expiry Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for p in products %}
+      <tr id="product-row-{{ p.id }}">
+        <td>{{ p.id }}</td>
+
+        <td>
+          {% if p.image %}
+          <img src="{{ p.image.url }}" class="card-img-top" alt="{{ p.name }}" width="50" height="50">
+          {% else %}
+          <span class="text-muted">No Image</span>
+          {% endif %}
+        </td>
+
+        <td>{{ p.name }}</td>
+        <td>{{ p.category }}</td>
+        <td>Rs. {{ p.selling_price }}</td>
+
+        <!-- 🔴 LOW STOCK BADGE -->
+        <td>
+          {% if p.stock <= 5 %}
+            <span class="badge bg-danger">{{ p.stock }} Low!</span>
+          {% else %}
+            <span class="badge bg-success">{{ p.stock }}</span>
+          {% endif %}
+        </td>
+
+        <!-- 🟡 EXPIRY STATUS BADGE -->
+        <td>
+          {% if p.expiry_status == 'expired' %}
+              <span class="badge bg-danger">Expired ({{ p.expiry_date }})</span>
+
+          {% elif p.expiry_status == 'near' %}
+              <span class="badge bg-warning text-dark">Expiring Soon ({{ p.expiry_date }})</span>
+
+          {% elif p.expiry_status == 'good' %}
+              <span class="badge bg-success">Fresh ({{ p.expiry_date }})</span>
+
+          {% else %}
+              <span class="badge bg-secondary">No Date</span>
+          {% endif %}
+        </td>
+
+        <td>
+          <a href="{% url 'product_view' p.id %}" class="btn btn-sm btn-info">View</a>
+
+          <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProductModal{{ p.id }}">
+            Edit
+          </button>
+
+          <form action="{% url 'product_delete' p.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger"
+              onclick="return confirm('Are you sure?')">
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+
+      <!-- EDIT PRODUCT MODAL (unchanged, keeping original code) -->
+      <div class="modal fade" id="editProductModal{{ p.id }}" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form action="{% url 'product_edit' p.id %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="modal-header">
+                <h5 class="modal-title">Edit {{ p.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Name</label>
+                  <input name="name" class="form-control" value="{{ p.name }}">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Category</label>
+                  <input name="category" class="form-control" value="{{ p.category }}">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Cost Price</label>
+                  <input name="cost_price" type="number" step="0.01" class="form-control" value="{{ p.cost_price }}">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Selling Price</label>
+                  <input name="selling_price" type="number" step="0.01" class="form-control" value="{{ p.selling_price }}">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Stock</label>
+                  <input name="stock" type="number" class="form-control" value="{{ p.stock }}">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Supplier</label>
+                  <select name="supplier" class="form-select">
+                    <option value="">---------</option>
+                    {% for sup in suppliers %}
+                      <option value="{{ sup.id }}" {% if p.supplier and p.supplier.id == sup.id %}selected{% endif %}>
+                        {{ sup.name }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Product Image</label><br>
+                  {% if p.image %}
+                  <img src="{{ p.image.url }}" width="80" class="mb-2"><br>
+                  {% endif %}
+                  <input type="file" name="image" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Expiry Date</label>
+                  <input type="date" name="expiry_date" class="form-control"
+                    value="{{ p.expiry_date|date:'Y-m-d' }}">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary" type="submit">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- ADD PRODUCT MODAL (unchanged) -->
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<div class="modal fade" id="addProductModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{% url 'product_add' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        
+          <div class="modal-body">
+          <div class="mb-3">{{ form.name.label_tag }} {{ form.name }}</div>
+          <div class="mb-3">{{ form.category.label_tag }} {{ form.category }}</div>
+          <div class="mb-3">{{ form.cost_price.label_tag }} {{ form.cost_price }}</div>
+          <div class="mb-3">{{ form.selling_price.label_tag }} {{ form.selling_price }}</div>
+          <div class="mb-3">{{ form.stock.label_tag }} {{ form.stock }}</div>
+          <div class="mb-3">{{ form.supplier.label_tag }} {{ form.supplier }}</div>
+          <div class="mb-3">{{ form.image.label_tag }} {{ form.image }}</div>
+          <div class="mb-3">{{ form.expiry_date.label_tag }} {{ form.expiry_date }}</div>
+
+          <div class="mb-3">
+            <label class="form-label">Product Image</label>
+            <input type="file" name="image" class="form-control">
+          </div>
+        </div>
+
+
+
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-success" type="submit">Add Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+

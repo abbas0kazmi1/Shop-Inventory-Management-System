@@ -1,0 +1,51 @@
+{% extends 'inventory/base.html' %}
+{% block title %}Product - {{ product.name }}{% endblock %}
+{% block content %}
+
+<div class="card mx-auto" style="max-width:800px">
+  <div class="card-body">
+
+    {% if product.image %}
+    <img src="{{ product.image.url }}" class="img-fluid mb-3 rounded">
+    {% endif %}
+
+    <h3>{{ product.name }}</h3>
+
+    <!-- STATUS UI -->
+    <p>
+      {% if product.stock <= 5 %}
+        <span class="badge bg-danger">Low Stock: {{ product.stock }}</span>
+      {% else %}
+        <span class="badge bg-success">Stock: {{ product.stock }}</span>
+      {% endif %}
+
+      {% if product.expiry_status == 'expired' %}
+        <span class="badge bg-danger">Expired</span>
+      {% elif product.expiry_status == 'near' %}
+        <span class="badge bg-warning text-dark">Expiring Soon</span>
+      {% else %}
+        <span class="badge bg-success">Fresh</span>
+      {% endif %}
+    </p>
+
+    <p><strong>Description:</strong> {{ product.description }}</p>
+    <p><strong>Category:</strong> {{ product.category }}</p>
+    <p><strong>Expiry Date:</strong> {{ product.expiry_date }}</p>
+    <p><strong>Supplier:</strong> {{ product.supplier }}</p>
+    <p><strong>Cost Price:</strong> Rs. {{ product.cost_price }}</p>
+    <p><strong>Selling Price:</strong> Rs. {{ product.selling_price }}</p>
+
+    <!-- 📊 SALES TREND WIDGET -->
+    <hr>
+    <h5>Sales Trend Prediction</h5>
+    <p>Based on last 10 sales:</p>
+
+    <p><strong>Expected Sales Tomorrow:</strong> {{ expected_sales }}</p>
+<p><strong>Expected Profit:</strong> Rs. {{ expected_profit }}</p>
+<p><strong>Future Stock After Prediction:</strong> {{ future_stock }}</p>
+
+    <a href="{% url 'products' %}" class="btn btn-secondary">Back</a>
+  </div>
+</div>
+
+{% endblock %}

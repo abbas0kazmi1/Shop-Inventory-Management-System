@@ -1,0 +1,38 @@
+{% extends 'inventory/base.html' %}
+{% block title %}Suppliers{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="text-primary">Suppliers</h2>
+  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSupplierModal">Add Supplier</button>
+</div>
+
+<table class="table table-striped">
+  <thead class="table-primary">
+    <tr><th>ID</th><th>Name</th><th>Contact</th><th>Email</th></tr>
+  </thead>
+  <tbody>
+    {% for s in suppliers %}
+    <tr><td>{{ s.id }}</td><td>{{ s.name }}</td><td>{{ s.contact }}</td><td>{{ s.email }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Add Supplier Modal -->
+<div class="modal fade" id="addSupplierModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{% url 'supplier_add' %}" method="post">
+        {% csrf_token %}
+        <div class="modal-header"><h5 class="modal-title">Add Supplier</h5></div>
+        <div class="modal-body">
+          {{ form.as_p }}
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-success" type="submit">Save Supplier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

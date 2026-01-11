@@ -1,0 +1,28 @@
+
+{% extends 'inventory/base.html' %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <img src="https://media.istockphoto.com/id/1450058572/photo/businessman-using-a-laptop-and-touching-on-virtual-screen-contact-icons-consists-of-telephone.jpg?s=612x612&w=0&k=20&c=R5wzCGHu6ZS-8EQpJ2Z1tkSbKGGdJH4apVhFM18EXSM=" class="d-block w-100" alt="Inventory">
+    <h2 class="mb-3 text-primary">Contact Us</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="mb-3">
+        {{ form.full_name.label_tag }} {{ form.full_name }}
+        {{ form.full_name.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.email.label_tag }} {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.message.label_tag }} {{ form.message }}
+        {{ form.message.errors }}
+      </div>
+      <button class="btn btn-primary w-100" type="submit">Send Message</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

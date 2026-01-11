@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}E-Khata{% endblock %}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!-- Header/Navbar -->
+  <!-- Header/Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">
+      <img src="https://i.pinimg.com/736x/a1/5f/51/a15f5117759cd710fae6ab2461250f4a.jpg"
+           width="45" height="40">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+
+        {% if user.is_authenticated %}
+
+          <li class="nav-item"><a class="nav-link" href="/dashboard/">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/products/">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="/suppliers/">Suppliers</a></li>
+          <li class="nav-item"><a class="nav-link" href="/customers/">Customers</a></li>
+          <li class="nav-item"><a class="nav-link" href="/sales/">Sales</a></li>
+          <li class="nav-item"><a class="nav-link" href="/purchases/">Purchases</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
+
+          <li class="nav-item">
+            <span class="nav-link text-warning fw-bold">
+              {{ user.username }}
+            </span>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'logout' %}">
+              Logout
+            </a>
+          </li>
+
+        {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+  <!-- Main Page Content -->
+  <main class="container mt-4 mb-5">
+    <!-- Django messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+ <footer class="bg-dark text-white py-4 mt-5">
+  <div class="container text-center">
+    <div class="mb-3">
+      <a href="/" class="text-white me-3">Home</a>
+      <a href="/dashboard/" class="text-white me-3">Dashboard</a>
+      <a href="/products/" class="text-white me-3">Products</a>
+      <a href="/suppliers/" class="text-white me-3">Suppliers</a>
+      <a href="/customers/" class="text-white me-3">Customers</a>
+      <a href="/sales/" class="text-white me-3">Sales</a>
+      <a href="/purchases/" class="text-white me-3">Purchases</a>
+      <a href="/contact/" class="text-white">Contact</a>
+    </div>
+    <div class="social-icons mb-2">
+      <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+      <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
+      <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+      <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+    </div>
+    <p class="small mb-0">© 2025 E-Khata. All rights reserved.</p>
+  </div>
+</footer>
+
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</body>
+</html>

@@ -1,0 +1,192 @@
+/* ------------------ General Layout ------------------ */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f4f7fa;
+  color: #333;
+  padding-top: 70px; /* Prevents content overlap */
+}
+
+/* ------------------ Navbar ------------------ */
+nav {
+  background-color: #0d6efd;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffc107 !important;
+  text-decoration: underline;
+}
+
+/* ------------------ Header / Hero ------------------ */
+header {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  text-align: center;
+  padding: 60px 20px;
+}
+
+header h1 {
+  font-size: 3rem;
+  color: #0d6efd;
+  font-weight: 700;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* ------------------ Carousel ------------------ */
+.carousel img {
+  border-radius: 10px;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+/* ------------------ Product Cards ------------------ */
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* ------------------ Testimonials ------------------ */
+section.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+section .rounded {
+  border: 1px solid #e1e1e1;
+}
+
+/* ------------------ Footer ------------------ */
+footer {
+  background-color: #212529;
+  color: #f8f9fa;
+  padding: 30px 0 20px;
+  width: 100%;
+  margin-top: 50px;
+}
+
+footer .footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+footer .social-links a {
+  color: #f8f9fa;
+  text-decoration: none;
+  font-size: 1.3rem;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+footer .social-links a:hover {
+  color: #0d6efd;
+}
+
+footer .footer-nav a {
+  color: #f8f9fa;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+footer .footer-nav a:hover {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+footer .small {
+  color: #adb5bd;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+/* ------------------ Responsive Adjustments ------------------ */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  .card {
+    margin-bottom: 20px;
+  }
+
+  footer .footer-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  footer .social-links {
+    order: 1;
+  }
+
+  footer .footer-nav {
+    order: 2;
+  }
+}
+/* ---------------- Dashboard Cards ---------------- */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 15px !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.display-6 {
+  font-size: 2.4rem;
+}
+
+@media (max-width: 768px) {
+  .display-6 {
+    font-size: 1.8rem;
+  }
+}

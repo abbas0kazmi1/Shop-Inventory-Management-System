@@ -1,0 +1,30 @@
+{% extends 'inventory/base.html' %}
+{% block title %}Sales{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="text-primary">Sales</h2>
+  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSaleModal">Record Sale</button>
+</div>
+
+<table class="table table-striped">
+  <thead class="table-primary"><tr><th>ID</th><th>Product</th><th>Customer</th><th>Qty</th><th>Amount</th><th>Date</th></tr></thead>
+  <tbody>
+    {% for s in sales %}
+    <tr><td>{{ s.id }}</td><td>{{ s.product.name }}</td><td>{{ s.customer }}</td><td>{{ s.quantity }}</td><td>Rs. {{ s.amount }}</td><td>{{ s.date }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Add Sale Modal -->
+<div class="modal fade" id="addSaleModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{% url 'sale_add' %}" method="post">{% csrf_token %}
+        <div class="modal-header"><h5 class="modal-title">Record Sale</h5></div>
+        <div class="modal-body">{{ form.as_p }}</div>
+        <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button class="btn btn-success" type="submit">Save</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
